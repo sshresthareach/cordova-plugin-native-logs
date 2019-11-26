@@ -18,7 +18,7 @@ import android.content.Context;
 
 public class NativeLogs extends CordovaPlugin {
 
-    private final String LOG_TAG = "CDVLOGCAT";
+    private final String LOG_TAG = "REACHLog";
 
     private void clearLog() {
 
@@ -69,6 +69,37 @@ public class NativeLogs extends CordovaPlugin {
         return log;
     }
 
+    private  String getLogsFromLogcatWithParameters(int lines, string params) {
+
+        LinkedList<String> logs = new LinkedList<String>();
+
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d" + " " + params);
+            BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(process.getInputStream())
+            );
+
+            String line ;
+            while (( line = bufferedReader.readLine()) != null) {
+                logs.add(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String log = "";
+
+        int nb = 0;
+        while( (nb < _nbLines) && (logs.size() > 0) ) {
+            log += logs.getLast();
+            log += "\n";
+            logs.removeLast();
+            nb++;
+        }
+        return log;
+    }
+
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext)
             throws JSONException {
 
@@ -87,6 +118,13 @@ public class NativeLogs extends CordovaPlugin {
             callbackContext.success(log);
             return true;
 
+        } else if(action.equals("getLogWithParameters")){
+            int lines = args.getInt(0);
+            int parameters = args.getString(1);
+            String log = getLogsFromLogcatWithParameters(lines, parameters);
+
+            callbackContext.success(log);
+            return true;
         }
         else
             return false;
