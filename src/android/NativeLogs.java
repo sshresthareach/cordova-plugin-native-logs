@@ -69,7 +69,7 @@ public class NativeLogs extends CordovaPlugin {
         return log;
     }
 
-    private  String getLogsFromLogcatWithParameters(int lines, string params) {
+    private  String getLogsFromLogcatWithParameters(int lines, String params) {
 
         LinkedList<String> logs = new LinkedList<String>();
 
@@ -120,7 +120,7 @@ public class NativeLogs extends CordovaPlugin {
 
         } else if(action.equals("getLogWithParameters")){
             int lines = args.getInt(0);
-            int parameters = args.getString(1);
+            String parameters = args.getString(1);
             String log = getLogsFromLogcatWithParameters(lines, parameters);
 
             callbackContext.success(log);
