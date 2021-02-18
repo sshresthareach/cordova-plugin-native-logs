@@ -15,7 +15,7 @@
     </engines>
 
     <js-module src="www/nativeLogs.js" name="NativeLogs">
-    <clobbers target="window.NativeLogs" />
+    <clobbers target="cordova.plugins.nativeLogs" />
   </js-module>
 
   <!-- android -->

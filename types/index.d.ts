@@ -8,18 +8,34 @@ declare namespace NativeLogsPlugin {
          * @param failure:         Optional callback invoked in case of an error
          *
          */
-        getNativeLogs(
+        getLog(
             nbLines: number,
             bCopyToClipboard: boolean,
-            success: (logs: string) => void): void;
-            failure?: (error: string) => void): void;
+            success: (logs: string) => void,
+            failure?: (error: string) => void
+        ): void;
+
+        /**
+         * Get native logs with extra query parameters
+         *
+         * @param {number} nbLines
+         * @param {string} parameter
+         * @param {(logs: string) => void} success
+         * @param {(error: string) => void} [failure]
+         * @memberof NativeLogs
+         */
+        getLogWithParameters(
+            nbLines: number,
+            parameter: string,
+            success: (logs: string) => void,
+            failure?: (error: string) => void,
+        );
 
        
     }
 }
-
-interface Window {
-    NativeLogs: NativeLogsPlugin.NativeLogs;
+interface CordovaPlugins {
+    nativeLogs : NativeLogsPlugin.NativeLogs;
 }
 
 declare var NativeLogs: NativeLogsPlugin.NativeLogs;
